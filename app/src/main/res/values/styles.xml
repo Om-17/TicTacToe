@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="column">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="vertical_line">
+        <item name="android:layout_width">8dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/neon_glow</item>
+        <item name="android:elevation">10dp</item>
+
+    </style>
+    <style name="horizontal_line">
+        <item name="android:layout_height">8dp</item>
+
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:background">@drawable/neon_glow</item>
+
+</style>
+
+
+</resources>

@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TicTacToe" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+         <item name="colorPrimary">@color/ex_dark_blue</item>
+        <item name="android:textColorPrimary">@color/dark_blue</item>
+        <item name="colorPrimaryVariant">@color/ex_dark_blue</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+
+    </style>
+</resources>

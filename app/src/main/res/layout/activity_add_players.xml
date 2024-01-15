@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2"
+    android:orientation="vertical"
+    tools:context=".AddPlayers">
+    <LinearLayout
+        android:id="@+id/audiolayoutbtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="2dp"
+        android:elevation="10dp"
+        android:background="@drawable/round_back_border_1_dark_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.969"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/vol_img1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/volume"
+            android:src="@drawable/neon_audio"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titletextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:shadowColor="#FFFF00"
+
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="13"
+        android:text="@string/app_name"
+
+        android:textColor="#FFFFFF"
+        android:textSize="39sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.796" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:shadowColor="#FF00FF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:text="Enter Player Names"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/border_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:elevation="8dp"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/neon_x"
+            android:contentDescription="@string/x"
+            />
+
+        <EditText
+            android:id="@+id/playerOneName"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:maxLines="1"
+            android:layout_marginEnd="20dp"
+            android:background="@color/ex_dark_blue"
+            android:ems="10"
+            android:shadowColor="#0000FF"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="20"
+            android:textSize="21dp"
+            android:hint="Player One"
+            android:inputType="text"
+            android:text="Player 1"
+
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:layout_marginTop="144dp"
+        android:background="@drawable/border_bg"
+        android:gravity="center"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:elevation="8dp"
+        android:shadowDy="0"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="o"
+            app:srcCompat="@drawable/neon_o" />
+
+        <EditText
+            android:id="@+id/playerTwoName"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Player 2"
+            android:shadowColor="#ff0000"
+            android:shadowDx="0"
+            android:textSize="21dp"
+            android:shadowDy="0"
+            android:shadowRadius="20"
+            android:layout_marginEnd="20dp"
+            android:background="@color/ex_dark_blue"
+            android:ems="10"
+            android:hint="Player Two"
+            android:inputType="text"
+
+            android:textColor="@color/white"
+            android:textColorHint="@color/light_blue" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/startGameBtn"
+        android:layout_width="320dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/round_back_blue1000"
+        android:text="Start Game"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:letterSpacing="0.2"
+        android:shadowDy="0"
+        android:elevation="8dp"
+
+        android:shadowRadius="20"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.011" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/botplayBtn2"
+        android:layout_width="320dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="20dp"
+        android:shadowColor="@color/white"
+        android:shadowDx="0"
+        android:elevation="8dp"
+        android:shadowDy="0"
+        android:shadowRadius="20"
+        android:letterSpacing="0.2"
+
+        android:background="@drawable/round_back_dark_blue1000"
+        android:text="Play With Computer"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.488" />
+</androidx.constraintlayout.widget.ConstraintLayout>

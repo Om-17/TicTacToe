@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:theme="@style/Base.Theme.TicTacToe"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2"
+
+    tools:context=".SplashScreenActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/ss" />
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="311dp"
+        android:layout_height="110dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+
+        android:shadowColor="#3F51B5"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="13"
+
+        android:text="@string/tic_tac_toe_game"
+        android:textAlignment="center"
+
+        android:textColor="@color/white"
+        android:textSize="43sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.766" />
+</androidx.constraintlayout.widget.ConstraintLayout>
