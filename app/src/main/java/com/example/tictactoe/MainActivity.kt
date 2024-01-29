@@ -54,17 +54,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var playerTwoWinTxt:TextView
     private val ticTacToeBot = TicTacToeBot()
 
+    private var playerTurn=1
     private val combinationList = mutableListOf<List<Int>>()
     private var boxPositions = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var playerTurn=1
     private var totalSelectionBoxes=1
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+
 
         setContentView(R.layout.activity_main)
         mediaPlayerWin = MediaPlayer.create(this, R.raw.winner_sound)
@@ -212,71 +209,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-//    private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
-//    if (isBoxSelectable(selectedBoxPosition)) {
-//        // Player's move
-//        boxPositions[selectedBoxPosition] = playerTurn
-//        vibrator.vibrate(100)
-//        mediaPlayerBoxTap?.start()
-//
-//        if (playerTurn == 1) {
-//            imageBtn.startAnimation(fadeInAnimation)
-//            imageBtn.setImageResource(R.drawable.neon_x)
-//
-//            if (checkPlayerWin()) {
-//                val winDialog = WinDialog(this@MainActivity, playerOneName.text.toString() + " wins", this, "Win")
-//                winDialog.setCancelable(false)
-//                winDialog.show()
-//                mediaPlayerWin?.start()
-//                playerOneWin++
-//                playerOneWinTxt.text = playerOneWin.toString()
-//            } else if (totalSelectionBoxes == 9) {
-//                val winDialog = WinDialog(this@MainActivity, "It is a draw!", this, "Draw")
-//                winDialog.setCancelable(false)
-//                winDialog.show()
-//                mediaPlayerDraw?.start()
-//            } else {
-//                changePlayerTurn(2)
-//                totalSelectionBoxes++
-//            }
-//        } else {
-//            imageBtn.startAnimation(fadeInAnimation)
-//            imageBtn.setImageResource(R.drawable.neon_o)
-//
-//            if (checkPlayerWin()) {
-//                val winDialog = WinDialog(this@MainActivity, playerTwoName.text.toString().capitalize() + " wins", this, "Win")
-//                winDialog.setCancelable(false)
-//                winDialog.show()
-//                mediaPlayerWin?.start()
-//                playerTwoWin++
-//                playerTwoWinTxt.text = playerTwoWin.toString()
-//            } else if (totalSelectionBoxes == 9) {
-//                val winDialog = WinDialog(this@MainActivity, "It is a draw!", this, "Draw")
-//                winDialog.setCancelable(false)
-//                winDialog.show()
-//                mediaPlayerDraw?.start()
-//            } else {
-//                changePlayerTurn(1)
-//                totalSelectionBoxes++
-//            }
-//        }
-//
-//        // Check for bot's turn
-//        if (isBot && playerTurn == 2) {
-//            val botMove = ticTacToeBot.makeMove(boxPositions)
-//            Toast.makeText(this,botMove.toString(), Toast.LENGTH_SHORT).show()
-//            if (botMove >= 0) {
-//                // Make the bot's move
-//                val botImageView = getImageViewForPosition(botMove)
-//                if (botImageView != null) {
-//                    performAction(botImageView, botMove)
-//                }
-//            }
-//        }
-//    }
-//}
-//
 private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
     if (isBoxSelectable(selectedBoxPosition)) {
         // Player's move

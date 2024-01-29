@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import CustomConfirmDialog
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,8 +36,13 @@ class HomeActivity : AppCompatActivity() {
 //            finish()
         }
         onlineBtn.setOnClickListener{
-            val mainIntent = Intent(this, LoginActivity::class.java)
+            val mainIntent = Intent(this, OnlineModeActivity::class.java)
             startActivity(mainIntent)
+//            val onlineGameIntent = Intent(this@HomeActivity, GamePlayActivity::class.java)
+//            onlineGameIntent.putExtra("playerOne", "om")
+//            onlineGameIntent.putExtra("playerTwo", "coder")
+//            onlineGameIntent.putExtra("roomCode","DE97E4")
+//            startActivity(onlineGameIntent)
 //            finish()
         }
     }
@@ -55,6 +61,12 @@ class HomeActivity : AppCompatActivity() {
         )
 
         exitDialog.show()
+    }
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+
+        showExitConfirmationDialog()
     }
 
 }

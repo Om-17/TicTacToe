@@ -51,4 +51,18 @@
     <string name="confirmation">Confirmation</string>
     <string name="loading">Loading...</string>
     <string name="waiting_for_join_second_player">Waiting for join second player</string>
+    <string name="you_can_change_your_password_below">You can change your password below</string>
+    <string name="below">below</string>
+    <string name="omadreja_gmail_com">omadreja@gmail.com</string>
+    <string name="enter_your_email_and_will_send_u_a_otp_to_confirm_this_account">Enter your email and will send u A OTP to confirm this account</string>
+    <string name="new_password">New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="otp">OTP</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="player_turn">Player Turn</string>
+    <string name="your_turn">Your turn</string>
+    <string name="turn">%s\'s turn</string>
+    <string name="full_name">Full Name</string>
+    <string name="o">o</string>
+
 </resources>

@@ -9,7 +9,8 @@ class Api
 {
     companion object
     {
-        private const val BASE_URL = "http://192.168.69.159/TicTacToeServer/api"
+//        private const val BASE_URL = "http://192.168.69.159/TicTacToeServer/api"
+private const val BASE_URL = "http://192.168.237.188:80/TicTacToeServer/api"
 
         fun get(path: String): ApiResponse
         {

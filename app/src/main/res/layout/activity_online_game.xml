@@ -3,7 +3,323 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/bg2"
+
     android:layout_height="match_parent"
     tools:context=".OnlineGameActivity">
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_back_blue_border"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+            app:layout_constraintHorizontal_bias="0.596"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.527">
+
+            <TextView
+                android:id="@+id/playerOneName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:shadowColor="@color/white"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="7"
+                android:text="@string/player_one"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="TODO"
+
+                android:gravity="center"
+                android:maxLines="1"
+                android:src="@drawable/neon_x" />
+
+            <TextView
+                android:id="@+id/playerOneWin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:shadowColor="@color/white"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="7"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_back_dark_blue"
+
+            android:elevation="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.596"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.527">
+
+            <TextView
+                android:id="@+id/playerTwoName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:shadowColor="@color/white"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="7"
+                android:text="Player Two"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="TODO"
+                android:gravity="center"
+                android:src="@drawable/neon_o" />
+
+            <TextView
+                android:id="@+id/playerTwoWin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:shadowColor="@color/white"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="7"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="357dp"
+            android:layout_height="373dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.877">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imgbtn1"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn1"
+                    android:paddingTop="20dp"
+                    android:src="@android:color/transparent" />
+
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn2"
+
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn2"
+                    android:paddingTop="20dp"
+
+                    />
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn3"
+                    style="@style/column"
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn3"
+                    android:paddingTop="20dp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/horizontal_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imgbtn4"
+                    style="@style/column"
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn4"
+                    android:paddingTop="20dp"
+
+                    />
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn5"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn5"
+                    android:paddingTop="20dp" />
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn6"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn6"
+                    android:paddingTop="20dp" />
+
+
+            </LinearLayout>
+
+            <View style="@style/horizontal_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/imgbtn7"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn6"
+                    android:paddingTop="20dp" />
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn8"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn6"
+                    android:paddingTop="20dp" />
+
+                <View style="@style/vertical_line" />
+
+                <ImageView
+                    android:id="@+id/imgbtn9"
+                    style="@style/column"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:contentDescription="btn6"
+                    android:paddingTop="20dp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/restartlayout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@drawable/round_back_border_1_dark_blue"-->
+<!--            android:elevation="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.957"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="25dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:contentDescription="@string/restart"-->
+<!--                android:src="@drawable/restart"-->
+<!--                tools:ignore="MissingConstraints" />-->
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/audiolayoutbtn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:background="@drawable/round_back_border_1_dark_blue"-->
+<!--            android:elevation="10dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.789"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/vol_img"-->
+<!--                android:layout_width="35dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:contentDescription="@string/volume"-->
+<!--                android:src="@drawable/neon_audio"-->
+<!--                tools:ignore="MissingConstraints" />-->
+<!--        </LinearLayout>-->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

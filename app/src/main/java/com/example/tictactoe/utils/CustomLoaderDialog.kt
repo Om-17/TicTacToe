@@ -31,7 +31,6 @@ class CustomLoaderDialog(context: Context) : Dialog(context, android.R.style.The
         progressBar.max = 100 // Set maximum value if tracking progress
         progressBar.progress = 0
 
-
     }
 
     override fun show() {

@@ -21,6 +21,7 @@ class CustomConfirmDialog(
         val messageTextView: TextView = findViewById(R.id.dialogMessage)
         val btnYes: Button = findViewById(R.id.btnYes)
         val btnNo: Button = findViewById(R.id.btnNo)
+        setCancelable(false)
 
         titleTextView.text = title
         messageTextView.text = message
@@ -34,5 +35,9 @@ class CustomConfirmDialog(
             onNoClick.invoke()
             dismiss()
         }
+    }
+    private fun customdismissDialog(){
+        dismiss()
+
     }
 }

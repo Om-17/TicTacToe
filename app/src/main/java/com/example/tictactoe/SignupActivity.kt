@@ -25,6 +25,7 @@ class SignupActivity : AppCompatActivity() {
     private  lateinit var txtUsername :EditText
     private  lateinit var txtPassword :EditText
     private  lateinit var txtCPassword :EditText
+    private lateinit var txtName:EditText
     private  lateinit var txtEmail :EditText
     private  lateinit var signBtn:Button
     private lateinit var progressBar: ProgressBar
@@ -37,9 +38,11 @@ class SignupActivity : AppCompatActivity() {
         txtUsername=findViewById(id.username)
         txtCPassword=findViewById(id.confirmPassword)
         progressBar = findViewById(id.progressBar2)
-
+        txtName=findViewById(id.nametxt)
         txtEmail=findViewById(id.email)
         signBtn=findViewById(id.signup_btn)
+        progressBar.visibility = View.GONE
+
         login.setOnClickListener{
             val mainIntent = Intent(this, LoginActivity::class.java)
             startActivity(mainIntent)
@@ -68,16 +71,14 @@ class SignupActivity : AppCompatActivity() {
         val username = txtUsername.text.toString()
         val password = txtPassword.text.toString()
         val email = txtEmail.text.toString()
+        val name=txtName.text.toString()
+
         val cpassword = txtCPassword.text.toString()
-        if (username.isEmpty() || password.isEmpty()||email.isEmpty()) {
-//            Toast.makeText(
-//                this,
-//                "username and email and password are required",// Assuming error.data contains the message
-//                Toast.LENGTH_LONG
-//            ).show()
+        if (username.isEmpty() || password.isEmpty()||email.isEmpty()||name.isEmpty()) {
+
             val snackbarUtils = SnackbarUtils(this@SignupActivity)
             val rootView = findViewById<View>(android.R.id.content)
-            snackbarUtils.showSnackbar(rootView, "username and email and password are required")
+            snackbarUtils.showSnackbar(rootView, "username and email and name and password are required")
 
             // Show a message or perform some action to inform the user that both username and password are required
             return
@@ -92,7 +93,7 @@ class SignupActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Error: Passwords do not match!", Toast.LENGTH_LONG).show()
             return
         }
-        val user = User(username = username, password = password, email = email)
+        val user = User(username = username, password = password, email = email,name=name)
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                 progressBar.visibility = View.VISIBLE

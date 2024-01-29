@@ -13,21 +13,36 @@ import okhttp3.*
 import okio.ByteString
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.example.tictactoe.api.UserApi.Companion.asUser
+import com.example.tictactoe.models.Token
 import com.example.tictactoe.utils.CustomLoaderDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+
+import com.example.tictactoe.api.VerifyTokenApi
+import com.example.tictactoe.api.VerifyTokenApi.Companion.asToken
+import com.example.tictactoe.utils.SnackbarUtils
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
 
 class OnlineModeActivity : AppCompatActivity() {
     private lateinit var webSocketManager: WebSocketManager
     private lateinit var createRoomBtn:Button
     private lateinit var logoutBtn:ImageView
     private lateinit var createRoomDialog: CreateRoomDialog
+    private lateinit var joinRoomDialog:JoinRoomDialog
     private var dialog: AlertDialog? = null
     private lateinit var customLoaderDialog: CustomLoaderDialog
 
     private lateinit var usernametxt: TextView
+    private  var verifyTokenBoolean: Boolean=false
 
     private lateinit var joinRoomBtn:Button
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +53,7 @@ class OnlineModeActivity : AppCompatActivity() {
         logoutBtn=findViewById(R.id.logoutBtn)
         usernametxt=findViewById(R.id.usernameTxt)
         customLoaderDialog = CustomLoaderDialog(this)
-//        getSharedPreferences("my_prefs", MODE_PRIVATE).edit().clear().apply()
+
         if(!ConnectivityUtil.isInternetAvailable(this)) {
 
             val mainIntent = Intent(this, ConnectionLostActivity::class.java)
@@ -55,63 +70,148 @@ class OnlineModeActivity : AppCompatActivity() {
             finish()
         }
        else{
-            // WebSocket connection logic
+            tokenVerifyFun(token)
 
-            webSocketManager = WebSocketManager(token, object : WebSocketResponseListener {
-                override fun onRoomCreated(roomCode: String) {
-                    // Update dialog with the room code
-                    println("roomcode : $roomCode")
-                    hideLoader()
-                    runOnUiThread{
-                        createRoomDialog = CreateRoomDialog(this@OnlineModeActivity, webSocketManager,roomCode)
-                        createRoomDialog.show()
+                // WebSocket connection logic
+                webSocketManager = WebSocketManager(token, object : WebSocketResponseListener {
+                    override fun onOpen(message: Response) {
+
                     }
 
-
-
-
-                }
-                override fun onResponse(message: String) {
-                    // Handle the response message from the server
-                    hideLoader()
-
-                    if (message.startsWith("{\"error\":")) {
-                        // Assuming the message is JSON formatted
-                        val errormessage = JSONObject(message).getString("error")
-
-                        // Running UI updates on the main thread
+                    override fun onRoomCreated(roomCode: String) {
+                        // Update dialog with the room code
+                        println("roomcode : $roomCode")
                         runOnUiThread {
-                            Toast.makeText(this@OnlineModeActivity, errormessage, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    if (message.startsWith("{\"userjoined\":")) {
-                        // Assuming the message is JSON formatted
-                        val startgamemsg = JSONObject(message).getString("userjoined")
+                            hideLoader()
 
-                        // Running UI updates on the main thread
+                            createRoomDialog = CreateRoomDialog(
+                                this@OnlineModeActivity,
+                                webSocketManager,
+                                roomCode
+                            )
+                            createRoomDialog.show()
+                        }
+
+
+                    }
+
+                    override fun onclose(message: String) {
+                        println(message)
+
+                    }
+
+                    override fun onResponse(message: String) {
                         runOnUiThread {
-                            Toast.makeText(this@OnlineModeActivity, startgamemsg, Toast.LENGTH_SHORT).show()
+
+                            // Handle the response message from the server
+                            println(" Response message: $message")
+
+                            val jsonResponse = JSONObject(message)
+
+                            // Check for error
+                            if (jsonResponse.has("error")) {
+                                val errorMessage = jsonResponse.getString("error")
+
+                                Toast.makeText(
+                                    this@OnlineModeActivity,
+                                    errorMessage,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                val builder = AlertDialog.Builder(this@OnlineModeActivity)
+                                builder.setTitle("Error")
+                                builder.setCancelable(false)
+                                builder.setMessage(errorMessage)
+                                builder.setPositiveButton("ok") { dialog, _ ->
+
+                                    dialog.dismiss()
+
+                                }
+
+                                builder.show()
+
+                            }
+                            if (jsonResponse.has("status")) {
+                                val errorMessage = jsonResponse.getString("status")
+
+                                val builder = AlertDialog.Builder(this@OnlineModeActivity)
+                                builder.setTitle("Message")
+                                builder.setCancelable(false)
+                                builder.setMessage(errorMessage)
+                                builder.setPositiveButton("ok") { dialog, _ ->
+
+                                    dialog.dismiss()
+
+                                }
+
+                                builder.show()
+
+                            }
+                            if (jsonResponse.has("userjoined")) {
+                                val startGameMsg = jsonResponse.getString("userjoined")
+
+                                // Check for player names inside the userjoined condition
+                                if (jsonResponse.has("player1name") && jsonResponse.has("player2name")) {
+                                    val player1Name = jsonResponse.getString("player1name")
+                                    val player2Name = jsonResponse.getString("player2name")
+                                    val roomCode = jsonResponse.getString("roomCode")
+
+                                    Toast.makeText(
+                                        this@OnlineModeActivity,
+                                        "$startGameMsg $player1Name, $player2Name",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    val onlineGameIntent = Intent(
+                                        this@OnlineModeActivity,
+                                        GamePlayActivity::class.java
+                                    )
+                                    onlineGameIntent.putExtra("playerOne", player1Name)
+                                    onlineGameIntent.putExtra("playerTwo", player2Name)
+                                    onlineGameIntent.putExtra("roomCode", roomCode)
+                                    startActivity(onlineGameIntent)
+                                    finish()
+
+                                } else {
+
+                                    Toast.makeText(
+                                        this@OnlineModeActivity,
+                                        startGameMsg,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                }
+
+                            }
+
                         }
+                        hideLoader()
+
+                        // You can perform additional actions based on the response if needed
                     }
-                    println("online Response message: $message")
-                    // You can perform additional actions based on the response if needed
-                }
 
-                override fun onFailure(error: Throwable) {
-                    hideLoader()
-                    // Handle the failure
-                    runOnUiThread {
-                        showErrorDialog()
-                        Toast.makeText(this@OnlineModeActivity, error.message, Toast.LENGTH_SHORT).show()
+                    override fun onFailure(error: Throwable) {
+                        // Handle the failure
+                        runOnUiThread {
+                            hideLoader()
+
+                            showErrorDialog()
+                            Toast.makeText(
+                                this@OnlineModeActivity,
+                                error.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                        println("WebSocket failure: ${error.message}")
+
 
                     }
-                    println("WebSocket failure: ${error.message}")
+                })
+                showLoader()
 
+                webSocketManager.connectWebSocket()
 
-                }
-            })
-            showLoader()
-            webSocketManager.connectWebSocket()
 
         }
         usernametxt.text=username
@@ -127,16 +227,13 @@ class OnlineModeActivity : AppCompatActivity() {
         joinRoomBtn.setOnClickListener(::showJoinRoomDialog)
     }
     private fun showJoinRoomDialog(view:View) {
-        val joinRoomDialog = JoinRoomDialog(
+         joinRoomDialog = JoinRoomDialog(
             this,
             onJoinRoom = { roomCode ->
                 println("roomcode===$roomCode")
-                val message = "{\"action\":\"joinRoom\",\"roomCode\":\"$roomCode\",}"
+                val message = "{\"action\":\"joinRoom\",\"roomCode\":\"$roomCode\"}"
                 webSocketManager.sendMessage(message)
-                // Handle room code
-                // You can perform actions with the roomCode obtained from the dialog
-                // For example, pass it to another function or start a new activity
-                // e.g., startNewActivityWithRoomCode(roomCode)
+
             }
         )
 
@@ -176,8 +273,11 @@ class OnlineModeActivity : AppCompatActivity() {
         builder.show()
     }
     private fun showLoader() {
-        customLoaderDialog.show()
+        if (!isFinishing && !isDestroyed) { // Check if activity is running
+            customLoaderDialog.show()
+        }
     }
+
 
     private fun hideLoader() {
         if (customLoaderDialog.isShowing) {
@@ -193,4 +293,76 @@ class OnlineModeActivity : AppCompatActivity() {
         startActivity(onlineModeIntent)
         finish()
     }
+
+
+
+    override fun onDestroy() {
+//        println("modeactivity onDestory")
+//
+        if (this::webSocketManager.isInitialized) {
+            webSocketManager.closeWebSocket()
+        }
+        super.onDestroy()
+    }
+
+    private  fun tokenVerifyFun(token:String) {
+        val tokenObj = Token(
+            token = token
+        )
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val response = VerifyTokenApi.verifyToken(tokenObj)
+            if (response.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                val error = response.getError()
+
+                withContext(Dispatchers.Main) {
+                    println(error)
+                    if (error != null) {
+
+                        val message = error.error
+                        val snackbarUtils = SnackbarUtils(this@OnlineModeActivity)
+                        val rootView = findViewById<View>(android.R.id.content)
+                        snackbarUtils.showSnackbar(rootView, message)
+                        getSharedPreferences("my_prefs", MODE_PRIVATE).edit().clear().apply()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this@OnlineModeActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 800)
+
+                    }
+
+                }
+
+                return@launch
+
+            }
+            if (response.statusCode == HttpURLConnection.HTTP_OK) {
+
+            }
+            withContext(Dispatchers.IO){
+
+
+                    val tokenmesage = response.asToken()
+                    println(tokenmesage.message)
+            }
+        }
+    }
+//    override fun onPause() {
+//        webSocketManager.closeWebSocket()
+//        println("onPause")
+//        webSocketManager.connectWebSocket()
+//
+//        super.onPause()
+//    }
+//
+//    override fun onResume() {
+//        println("onResume")
+//        webSocketManager.closeWebSocket()
+//        webSocketManager.connectWebSocket()
+//        super.onResume()
+//    }
+
+
 }
