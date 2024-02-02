@@ -36,7 +36,11 @@ class LoginActivity : AppCompatActivity() {
         txtUsername = findViewById(R.id.txtusername)
         txtPassword = findViewById(R.id.txtpassword)
         progressBar = findViewById(R.id.progressBar)
-
+        val forgotpass:TextView=findViewById(R.id.forgotpass)
+        forgotpass.setOnClickListener{
+            val mainIntent = Intent(this, ForgetpasswordActivity::class.java)
+            startActivity(mainIntent)
+        }
 
         signup = findViewById(R.id.signup)
         btnLogin=findViewById(R.id.login_btn)
@@ -71,11 +75,6 @@ class LoginActivity : AppCompatActivity() {
         }
         if (username.isEmpty() || password.isEmpty()) {
 
-//            Toast.makeText(
-//                this@LoginActivity,
-//               "username and password are required",// Assuming error.data contains the message
-//                Toast.LENGTH_LONG
-//            ).show()
             val snackbarUtils = SnackbarUtils(this)
             val rootView = findViewById<View>(android.R.id.content)
             snackbarUtils.showSnackbar(rootView, "Username and password are required")

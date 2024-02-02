@@ -490,21 +490,7 @@
             }
 
         }
-        override fun onDestroy() {
-            println("online onDestory")
-            if (this::webSocketManager.isInitialized) {
-                val message = "{\"action\":\"leaveRoom\"}"
 
-                webSocketManager.sendMessage(message)
-
-                webSocketManager.closeWebSocket()
-            }
-
-            super.onDestroy()
-
-
-
-        }
 
 
         fun checkPlayerWin(): Boolean {
@@ -609,9 +595,9 @@
         override fun onPause() {
             println("online onPause")
 
-//            if(!webSocketManager.isWebSocketConnected()) {
-//                webSocketManager.connectWebSocket()
-//            }
+            if(!webSocketManager.isWebSocketConnected()) {
+                webSocketManager.connectWebSocket()
+            }
 
             super.onPause()
         }
@@ -628,9 +614,9 @@
             }
         }
         override fun onRestart() {
-//            if(!webSocketManager.isWebSocketConnected()) {
-//                webSocketManager.connectWebSocket()
-//            }
+            if(!webSocketManager.isWebSocketConnected()) {
+                webSocketManager.connectWebSocket()
+            }
             println("online onRestart")
             super.onRestart()
         }
@@ -653,9 +639,22 @@
         }
         override fun onResume() {
             println("online onResume")
-//            if(!webSocketManager.isWebSocketConnected()) {
-//                webSocketManager.connectWebSocket()
-//            }
+            if(!webSocketManager.isWebSocketConnected()) {
+                webSocketManager.connectWebSocket()
+            }
             super.onResume()
+        }
+        override fun onDestroy() {
+            println("online onDestory")
+            if (this::webSocketManager.isInitialized) {
+                val message = "{\"action\":\"leaveRoom\"}"
+
+                webSocketManager.sendMessage(message)
+
+                webSocketManager.closeWebSocket()
+            }
+
+            super.onDestroy()
+
         }
     }

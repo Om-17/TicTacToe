@@ -9,17 +9,19 @@ class Api
 {
     companion object
     {
-//        private const val BASE_URL = "http://192.168.69.159/TicTacToeServer/api"
-private const val BASE_URL = "http://192.168.237.188:80/TicTacToeServer/api"
-
-        fun get(path: String): ApiResponse
+        private const val BASE_URL = "http://103.21.160.164:80/TicTacToeServer/api"
+//        private const val BASE_URL = "http://192.168.65.188:80/TicTacToeServer/api"
+//        private const val BASE_URL = "http://192.168.0.151:80/TicTacToeServer/api"
+//private const val BASE_URL = "http://192.168.237.188:80/TicTacToeServer/api"
+//        private const val BASE_URL = "http://192.168.198.44:80/TicTacToeServer/api"
+        fun get(path: String,token:String=""): ApiResponse
         {
             val url = "$BASE_URL/$path"
             val connection = URL(url).openConnection() as HttpURLConnection
 
             connection.requestMethod = "GET"
+            connection.setRequestProperty("Authorization", "Bearer $token")
             connection.doInput = true
-            connection.doOutput = true
 
             val reader = if (connection.responseCode == HttpURLConnection.HTTP_OK) connection.inputStream.bufferedReader() else connection.errorStream.bufferedReader()
             val response = reader.readText()
@@ -29,7 +31,7 @@ private const val BASE_URL = "http://192.168.237.188:80/TicTacToeServer/api"
             return ApiResponse(connection.responseCode, response)
         }
 
-        fun post(path: String, data: String): ApiResponse
+        fun post(path: String, data: String,token: String=""): ApiResponse
         {
             try {
 
@@ -38,6 +40,7 @@ private const val BASE_URL = "http://192.168.237.188:80/TicTacToeServer/api"
                 val connection = URL(url).openConnection() as HttpURLConnection
 
                 connection.requestMethod = "POST"
+                connection.setRequestProperty("Authorization", "Bearer $token")
                 connection.doInput = true
                 connection.doOutput = true
 

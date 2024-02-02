@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.media.MediaPlayer
+import android.os.Handler
+import android.os.Looper
 
 import android.os.Vibrator
 import android.view.WindowManager
@@ -209,53 +211,63 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
-    if (isBoxSelectable(selectedBoxPosition)) {
-        // Player's move
-        boxPositions[selectedBoxPosition] = playerTurn
-        vibrator.vibrate(100)
-        mediaPlayerBoxTap?.start()
+    private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
+        if (isBoxSelectable(selectedBoxPosition)) {
+            // Player's move
+            boxPositions[selectedBoxPosition] = playerTurn
+            vibrator.vibrate(100)
+            mediaPlayerBoxTap?.start()
 
-        if (playerTurn == 1) {
-            imageBtn.startAnimation(fadeInAnimation)
-            imageBtn.setImageResource(R.drawable.neon_x)
+            if (playerTurn == 1) {
+                imageBtn.startAnimation(fadeInAnimation)
+                imageBtn.setImageResource(R.drawable.neon_x)
 
-            if (checkPlayerWin()) {
-                playerOneWins()
-            } else if (totalSelectionBoxes == 9) {
-                showDrawDialog()
+                if (checkPlayerWin()) {
+                    playerOneWins()
+                } else if (totalSelectionBoxes == 9) {
+                    showDrawDialog()
+                } else {
+                    changePlayerTurn(2)
+                    totalSelectionBoxes++
+                }
             } else {
-                changePlayerTurn(2)
-                totalSelectionBoxes++
+                imageBtn.startAnimation(fadeInAnimation)
+                imageBtn.setImageResource(R.drawable.neon_o)
+
+                if (checkPlayerWin()) {
+                    playerTwoWins()
+                } else if (totalSelectionBoxes == 9) {
+                    showDrawDialog()
+                } else {
+                    changePlayerTurn(1)
+                    totalSelectionBoxes++
+                }
             }
-        } else {
-            imageBtn.startAnimation(fadeInAnimation)
-            imageBtn.setImageResource(R.drawable.neon_o)
 
-            if (checkPlayerWin()) {
-                playerTwoWins()
-            } else if (totalSelectionBoxes == 9) {
-                showDrawDialog()
-            } else {
-                changePlayerTurn(1)
-                totalSelectionBoxes++
-            }
-        }
+            // Check for bot's turn
+            if (isBot && playerTurn == 2) {
+                val botMove = ticTacToeBot.makeMove(boxPositions)
 
-        // Check for bot's turn
-        if (isBot && playerTurn == 2) {
-            val botMove = ticTacToeBot.makeMove(boxPositions)
+                if (botMove >= 0) {
+                    // Make the bot's move
+                    val botImageView = getImageViewForPosition(botMove)
+                    if (botImageView != null) {
 
-            if (botMove >= 0) {
-                // Make the bot's move
-                val botImageView = getImageViewForPosition(botMove)
-                if (botImageView != null) {
-                    botMakesMove(botImageView, botMove)
+                            botMakesMove(botImageView, botMove)
+                        
+                    }
                 }
             }
         }
     }
-}
+    private fun setBoxesInteractivity() {
+        val isLocalPlayerTurn = (playerTurn == 1 ) ||
+                (playerTurn == 2 )
+        println("button enabled $isLocalPlayerTurn")
+        listOf(image1, image2, image3, image4, image5, image6, image7, image8, image9).forEach { imageView ->
+            imageView.isEnabled = isLocalPlayerTurn
+        }
+    }
 
     private fun botMakesMove(imageView: ImageView, botMove: Int) {
         // Bot's move
@@ -315,7 +327,7 @@ private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
     }
 
     private  fun changePlayerTurn(currentPlayerTurn:Int){
-         playerTurn=currentPlayerTurn
+        playerTurn=currentPlayerTurn
 
         if (playerTurn == 1) {
 //            if(!isBot){
@@ -363,27 +375,27 @@ private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
         playerOneWinTxt.text="0"
 
     }
-   fun  restartMatch(){
-       vibrator.vibrate(100)
+    fun  restartMatch(){
+        vibrator.vibrate(100)
 
 
         boxPositions = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
         playerTurn=1
         totalSelectionBoxes=1
-       playerOnelayout.setBackgroundResource(R.drawable.round_back_blue_border)
-       playerTwolayout.setBackgroundResource(R.drawable.round_back_dark_blue)
-       image1.setImageResource(R.drawable.bg_transparent)
-       image2.setImageResource(R.drawable.bg_transparent)
-       image3.setImageResource(R.drawable.bg_transparent)
-       image4.setImageResource(R.drawable.bg_transparent)
-       image5.setImageResource(R.drawable.bg_transparent)
-       image6.setImageResource(R.drawable.bg_transparent)
-       image7.setImageResource(R.drawable.bg_transparent)
-       image8.setImageResource(R.drawable.bg_transparent)
-       image9.setImageResource(R.drawable.bg_transparent)
+        playerOnelayout.setBackgroundResource(R.drawable.round_back_blue_border)
+        playerTwolayout.setBackgroundResource(R.drawable.round_back_dark_blue)
+        image1.setImageResource(R.drawable.bg_transparent)
+        image2.setImageResource(R.drawable.bg_transparent)
+        image3.setImageResource(R.drawable.bg_transparent)
+        image4.setImageResource(R.drawable.bg_transparent)
+        image5.setImageResource(R.drawable.bg_transparent)
+        image6.setImageResource(R.drawable.bg_transparent)
+        image7.setImageResource(R.drawable.bg_transparent)
+        image8.setImageResource(R.drawable.bg_transparent)
+        image9.setImageResource(R.drawable.bg_transparent)
 
 
-   }
+    }
     private fun toggleMute() {
         if (isMuted) {
             // Unmute the audio
@@ -429,6 +441,3 @@ private fun performAction(imageBtn: ImageView, selectedBoxPosition: Int) {
         mediaPlayerBg?.start()
     }
 }
-
-
-

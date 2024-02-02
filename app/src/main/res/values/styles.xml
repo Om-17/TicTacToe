@@ -25,5 +25,23 @@
 
 </style>
 
+    <style name="OtpEditText">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">68dp</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:inputType">number</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginEnd">5dp</item>
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:shadowColor">#0000FF</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">20</item>
+        <item name="android:textColor">@color/white</item>
+       <item name="android:backgroundTint">@color/white</item>
+      <item name="android:backgroundTintMode">add</item>
+        <!-- Customize further as needed -->
+    </style>
 
 </resources>

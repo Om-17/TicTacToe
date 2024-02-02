@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 data class ApiResponse(val statusCode: Int, val json: String)
 {
     init {
-        println("Response: $json")
+        println("Response: $json $statusCode")
     }
     private val isSuccess: Boolean get() = statusCode == HttpURLConnection.HTTP_OK
     val errorMessage: String? = if (!isSuccess) json else null

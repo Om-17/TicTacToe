@@ -18,6 +18,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import com.example.tictactoe.api.UserApi.Companion.asUser
 import com.example.tictactoe.models.Token
 import com.example.tictactoe.utils.CustomLoaderDialog
@@ -42,7 +43,7 @@ class OnlineModeActivity : AppCompatActivity() {
     private lateinit var customLoaderDialog: CustomLoaderDialog
 
     private lateinit var usernametxt: TextView
-    private  var verifyTokenBoolean: Boolean=false
+    private lateinit var userImg:ImageView
 
     private lateinit var joinRoomBtn:Button
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class OnlineModeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_online_mode)
         createRoomBtn=findViewById(R.id.createroomBtn)
         joinRoomBtn=findViewById(R.id.joinroomBtn)
+        userImg=findViewById(R.id.user_img)
         logoutBtn=findViewById(R.id.logoutBtn)
         usernametxt=findViewById(R.id.usernameTxt)
         customLoaderDialog = CustomLoaderDialog(this)
@@ -60,18 +62,23 @@ class OnlineModeActivity : AppCompatActivity() {
             startActivity(mainIntent)
             finish()
         }
-        val prefs = getSharedPreferences("my_prefs", MODE_PRIVATE)
-        val token = prefs.getString("token", null)
-        val username = prefs.getString("username", null)
-        if (token.isNullOrEmpty()) {
-            // Token exists, start OnlineModeActivity
-            val onlineModeIntent = Intent(this, LoginActivity::class.java)
-            startActivity(onlineModeIntent)
-            finish()
-        }
-       else{
-            tokenVerifyFun(token)
-
+        else{
+            val prefs = getSharedPreferences("my_prefs", MODE_PRIVATE)
+            val token = prefs.getString("token", null)
+            val username = prefs.getString("username", null)
+            if (token.isNullOrEmpty()) {
+                // Token exists, start OnlineModeActivity
+                val onlineModeIntent = Intent(this, LoginActivity::class.java)
+                startActivity(onlineModeIntent)
+                finish()
+            }
+            else{
+                tokenVerifyFun(token)
+                userImg.setOnClickListener{
+                    val mainIntent = Intent(this, ProfileActivity::class.java)
+                    mainIntent.putExtra("token",token)
+                    startActivity(mainIntent)
+                }
                 // WebSocket connection logic
                 webSocketManager = WebSocketManager(token, object : WebSocketResponseListener {
                     override fun onOpen(message: Response) {
@@ -213,18 +220,22 @@ class OnlineModeActivity : AppCompatActivity() {
                 webSocketManager.connectWebSocket()
 
 
-        }
-        usernametxt.text=username
-        logoutBtn.setOnClickListener{
-            showLogoutConfirmationDialog()
-        }
-        createRoomBtn.setOnClickListener{
+            }
+            usernametxt.text=username
+            logoutBtn.setOnClickListener{
+                showLogoutConfirmationDialog()
+            }
+            createRoomBtn.setOnClickListener{
 
-            val message = "{\"action\":\"createRoom\"}"
-            webSocketManager.sendMessage(message)
+                val message = "{\"action\":\"createRoom\"}"
+                webSocketManager.sendMessage(message)
 
+            }
+            joinRoomBtn.setOnClickListener(::showJoinRoomDialog)
         }
-        joinRoomBtn.setOnClickListener(::showJoinRoomDialog)
+
+
+
     }
     private fun showJoinRoomDialog(view:View) {
          joinRoomDialog = JoinRoomDialog(
@@ -256,28 +267,34 @@ class OnlineModeActivity : AppCompatActivity() {
         confirmDialog.show()
     }
     private fun showErrorDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Connection Failed")
-        builder.setCancelable(false)
-        builder.setMessage("Unable to connect to the WebSocket. Please try again.")
-        builder.setPositiveButton("Try Again") { dialog, _ ->
-            dialog.dismiss()
-            showLoader()
-            webSocketManager.connectWebSocket() // Attempt to reconnect
+        if (!isFinishing) { // Add this check to prevent BadTokenException
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Connection Failed")
+            builder.setCancelable(false)
+            builder.setMessage("Unable to connect to the WebSocket. Please try again.")
+            builder.setPositiveButton("Try Again") { dialog, _ ->
+                dialog.dismiss()
+                showLoader()
+                webSocketManager.connectWebSocket() // Attempt to reconnect
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                startActivity(Intent(this, HomeActivity::class.java))
+                dialog.dismiss()
+            }
+            builder.show()
         }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-
-            startActivity(Intent(this, HomeActivity::class.java))
-            dialog.dismiss()
-        }
-        builder.show()
     }
+
     private fun showLoader() {
         if (!isFinishing && !isDestroyed) { // Check if activity is running
             customLoaderDialog.show()
         }
     }
 
+    override fun getOnBackInvokedDispatcher(): OnBackInvokedDispatcher {
+        finish()
+        return super.getOnBackInvokedDispatcher()
+    }
 
     private fun hideLoader() {
         if (customLoaderDialog.isShowing) {
@@ -345,7 +362,9 @@ class OnlineModeActivity : AppCompatActivity() {
 
 
                     val tokenmesage = response.asToken()
+                if (tokenmesage != null) {
                     println(tokenmesage.message)
+                }
             }
         }
     }

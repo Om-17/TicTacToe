@@ -64,5 +64,9 @@
     <string name="turn">%s\'s turn</string>
     <string name="full_name">Full Name</string>
     <string name="o">o</string>
+    <string name="username_gmail_com">username@gmail.com</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="blank" />
 
 </resources>
