@@ -38,12 +38,7 @@
             android:name=".OnlineGameActivity"
             android:exported="false" android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".CreateRoomDialog"
-            android:exported="false" />
-        <activity
-            android:name=".JoinRoomDialog"
-            android:exported="false" android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ConnectionLostActivity"
             android:exported="false"

@@ -3,6 +3,7 @@ package com.example.tictactoe
 import CustomConfirmDialog
 import WebSocketManager
 import WebSocketResponseListener
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -55,6 +56,7 @@ class OnlineModeActivity : AppCompatActivity() {
         logoutBtn=findViewById(R.id.logoutBtn)
         usernametxt=findViewById(R.id.usernameTxt)
         customLoaderDialog = CustomLoaderDialog(this)
+//        getSharedPreferences("my_prefs", MODE_PRIVATE).edit().clear().apply()
 
         if(!ConnectivityUtil.isInternetAvailable(this)) {
 
@@ -291,17 +293,40 @@ class OnlineModeActivity : AppCompatActivity() {
         }
     }
 
-    override fun getOnBackInvokedDispatcher(): OnBackInvokedDispatcher {
-        finish()
-        return super.getOnBackInvokedDispatcher()
-    }
 
     private fun hideLoader() {
         if (customLoaderDialog.isShowing) {
             customLoaderDialog.dismiss()
         }
     }
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
 
+        leaveGameDialog()
+    }
+
+    private fun leaveGameDialog() {
+        val confirmDialog = CustomConfirmDialog(
+            this,
+            {
+
+                // User clicked Yes, perform action for leaving the game
+                val onlineModeIntent = Intent(this, HomeActivity::class.java)
+                startActivity(onlineModeIntent)
+
+                finish()
+
+            },
+            {
+                // User clicked No, do nothing
+
+            },
+            "Leave Game",
+            "Are you sure you want to leave the online game mode?"
+        )
+        confirmDialog.show()
+    }
 
     private fun logout() {
         // Perform logout actions

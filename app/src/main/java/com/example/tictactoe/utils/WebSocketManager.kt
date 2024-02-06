@@ -17,7 +17,7 @@ interface WebSocketResponseListener {
 
 class WebSocketManager(private val token: String, private val listener: WebSocketResponseListener) {
 //    private val wsUrl = "ws://192.168.65.188:8088?token=$token"
-    private val wsUrl = "ws://103.21.160.164:80?token=$token"
+    private val wsUrl = "ws://103.21.160.164:8088?token=$token"
 
 //    private val wsUrl = "ws://192.168.0.151:8088?token=$token"
 //    private val wsUrl = "ws://192.168.198.44:8088?token=$token"

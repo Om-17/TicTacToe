@@ -50,6 +50,7 @@
         private lateinit var image7: ImageView
         private lateinit var image8: ImageView
         private lateinit var image9: ImageView
+        private var gameEnded = false
         private lateinit var playerOneWinTxt:TextView
         private lateinit var playerTwoWinTxt:TextView
         private lateinit var roomCode:String
@@ -357,8 +358,9 @@
                         imageBtn.setImageResource(R.drawable.neon_x)
                         if (checkPlayerWin()) {
                             showWinnerDialog(getPlayerOneName)
-                            playerOneWin++
-                            playerOneWinTxt.text = playerOneWin.toString()
+//
+//                            playerOneWin++
+//                            playerOneWinTxt.text = playerOneWin.toString()
                         } else if (totalSelectionBoxes == 9) {
                             showDrawDialog()
                         } else {
@@ -381,8 +383,8 @@
 
                         if (checkPlayerWin()) {
                             showWinnerDialog(getPlayerTwoName)
-                            playerTwoWin++
-                            playerTwoWinTxt.text = playerTwoWin.toString()
+//                            playerTwoWin++
+//                            playerTwoWinTxt.text = playerTwoWin.toString()
                         } else if (totalSelectionBoxes == 9) {
                             showDrawDialog()
                         } else {
@@ -427,8 +429,6 @@
 
                     if (checkPlayerWin()) {
                         showWinnerDialog(getPlayerOneName)
-                        playerOneWin++
-                        playerOneWinTxt.text = playerOneWin.toString()
 
                     } else if (totalSelectionBoxes == 9) {
                         showDrawDialog()
@@ -443,8 +443,9 @@
                  // Disable the box after being selected
                     if (checkPlayerWin()) {
                         showWinnerDialog(getPlayerTwoName)
-                        playerTwoWin++
-                        playerTwoWinTxt.text = playerTwoWin.toString()
+//                        playerTwoWin++
+
+//                        playerTwoWinTxt.text = playerTwoWin.toString()
 
                     } else if (totalSelectionBoxes == 9) {
                         showDrawDialog()
@@ -523,7 +524,7 @@
         }
         private fun restartMatch(){
             boxPositions = intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-
+            gameEnded = false
             playerTurn=1
             totalSelectionBoxes=1
             playerOnelayout.setBackgroundResource(R.drawable.round_back_blue_border)
@@ -556,8 +557,22 @@
             customDialog.show()
         }
         private fun showWinnerDialog(winnerName: String) {
-            showDialog("Wins", "$winnerName wins")
+            if (!gameEnded) {
+                gameEnded = true // Add this flag to indicate that the game has ended
+                showDialog("Wins", "$winnerName wins")
+
+                if (winnerName == getPlayerOneName) {
+                    playerOneWin++
+                    playerOneWinTxt.text = playerOneWin.toString()
+                } else if (winnerName == getPlayerTwoName) {
+                    playerTwoWin++
+                    playerTwoWinTxt.text = playerTwoWin.toString()
+                }
+            }
         }
+
+
+
 
         private fun showDrawDialog() {
             showDialog("Draw", "It is a draw!")

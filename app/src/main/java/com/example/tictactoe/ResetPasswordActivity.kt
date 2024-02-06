@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import com.example.tictactoe.api.ForgotPasswordApi
 import com.example.tictactoe.api.ProfileApi
@@ -37,7 +38,11 @@ class ResetPasswordActivity : AppCompatActivity() {
         resetBtn=findViewById(R.id.resetPassBtn)
         userId=intent.getIntExtra("userId",0)
         resetBtn.setOnClickListener(::resetPasswordClick)
+        val backBtn: ImageView = findViewById(R.id.backBtn)
+        backBtn.setOnClickListener {
 
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
     private fun resetPasswordClick(view:View) {
 
